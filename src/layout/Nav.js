@@ -1,11 +1,16 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Transition } from "@headlessui/react";
 import { Link, useNavigate } from "react-router-dom";
 
 import myaxios from "../provider/API";
+import Storage from "../utils/Storage";
+
+import { useDispatch, useSelector } from 'react-redux';
+import { setUserInfo } from "../store/actions/app.actions";
 
 function Nav() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [isOpen, setIsOpen] = useState(false);
   
   const handleLogout = async () => {
@@ -13,6 +18,22 @@ function Nav() {
     localStorage.removeItem("c_token");
     navigate('/login');
   }
+
+
+  const sapp = useSelector(state => state.sapp);
+  console.log(sapp)
+  if(!Storage.get('c_token')){
+    console.log('logout')
+    setTimeout(()=>{navigate('/login');},10)
+  }
+
+  useEffect(()=>{
+    if(Storage.get('c_token') && Storage.get('c_token') != 'undefined'){
+        myaxios.auth.checkToken("Bearer "+Storage.get('c_token')).then((res)=>{
+          dispatch(setUserInfo(res.data));
+        })
+    }
+  },[]);
 
   return (
     <>
@@ -33,12 +54,12 @@ function Nav() {
             </div>
             <div className="hidden md:block">
               <div className="ml-10 flex items-baseline space-x-4">
-                <Link
+                {/* <Link
                   href="#"
                   className=" hover:bg-gray-700 text-white px-3 py-2 rounded-md text-sm font-medium"
                 >
                   Dashboard
-                </Link>
+                </Link> */}
 
                 <Link
                   onClick={ () => handleLogout() }
@@ -107,12 +128,12 @@ function Nav() {
           {(divRef) => (
             <div className="md:hidden" id="mobile-menu">
               <div ref={divRef} className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                <Link
+                {/* <Link
                   href="#"
                   className="hover:bg-gray-700 text-white block px-3 py-2 rounded-md text-base font-medium"
                 >
                   Dashboard
-                </Link>
+                </Link> */}
 
                 <Link
                   onClick={ () => handleLogout() }

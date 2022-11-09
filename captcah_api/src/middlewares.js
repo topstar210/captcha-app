@@ -2,7 +2,7 @@ const jwt = require("jsonwebtoken");
 
 /* token validation */ 
 const tokenValidation = async (req, res, next) => {
-  if (req.headers && req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') {
+  if (req.headers && req.headers.authorization && req.headers.authorization.indexOf('Bearer')>-1 && req.headers.authorization.split(' ')[0] === 'Bearer') {
     const token = req.headers.authorization.split(" ")[1];
     const payload = await jwt.verify(token, process.env.SECRET);
     if (payload) {

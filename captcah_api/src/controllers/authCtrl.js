@@ -87,13 +87,15 @@ const authCtrl = {
     },
 
     checkToken: async (req, res) => {
-        // const token = req.headers.authorization.split(" ")[1];
+        const token = req.body.token.split(" ")[1];
+        const payload = await jwt.verify(token, process.env.SECRET);
         return res.status(201).send({
-            // uData: { 
-            //     user_id: req.user._id, 
-            //     name: req.user.name,
-            //     email: req.user.email
-            // },
+            token, 
+            uData: {
+                user_id: payload._id, 
+                name: payload.name,
+                email: payload.email
+            },
             message: "token verification success"
         });
     }

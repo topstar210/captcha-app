@@ -5,7 +5,7 @@ import {
 } from "../types/app.types";
 
 const initialState = {
-    token       : '',
+    token    : '',
     uData    : {}
   }
 
