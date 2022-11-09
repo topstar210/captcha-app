@@ -1,1 +1,1 @@
-export const SIDEBAR_SET = "APP_SIDEBAR_SET";
+export const SET_TOKEN = "APP_SET_TOKEN";

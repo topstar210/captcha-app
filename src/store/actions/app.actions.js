@@ -1,12 +1,12 @@
 import { 
-    SIDEBAR_SET 
+    SET_TOKEN 
 } from "../types/app.types";
 
-export const ctrlSidebar  = (set_state) => dispatch =>
+export const setUserInfo  = (uData) => dispatch =>
 {
     dispatch({
-        type: SIDEBAR_SET,
-        payload: set_state
+        type: SET_TOKEN,
+        payload: uData
     })
 }
 

@@ -1,9 +1,18 @@
 import React, { useState } from "react";
 import { Transition } from "@headlessui/react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+
+import myaxios from "../provider/API";
 
 function Nav() {
-  const [isOpen] = useState(false);
+  const navigate = useNavigate();
+  const [isOpen, setIsOpen] = useState(false);
+  
+  const handleLogout = async () => {
+    await myaxios.auth.logout();
+    localStorage.removeItem("c_token");
+    navigate('/login');
+  }
 
   return (
     <>
@@ -22,7 +31,7 @@ function Nav() {
                 </div>
                 <div className="ml-3 text-xl text-white">Captcha</div>
             </div>
-            {/* <div className="hidden md:block">
+            <div className="hidden md:block">
               <div className="ml-10 flex items-baseline space-x-4">
                 <Link
                   href="#"
@@ -32,10 +41,10 @@ function Nav() {
                 </Link>
 
                 <Link
-                  href="#"
+                  onClick={ () => handleLogout() }
                   className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
                 >
-                  Team
+                  Log out
                 </Link>
               </div>
             </div>
@@ -82,7 +91,7 @@ function Nav() {
                   </svg>
                 )}
               </button>
-            </div> */}
+            </div>
           </div>
         </div>
 
@@ -106,10 +115,10 @@ function Nav() {
                 </Link>
 
                 <Link
-                  href="#"
+                  onClick={ () => handleLogout() }
                   className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
                 >
-                  Team
+                  Log out
                 </Link>
               </div>
             </div>
